@@ -1,0 +1,386 @@
+/* Tailwind CSS CDN */
+@import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+
+/* Custom fonts & variables */
+:root {
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+    --color-border: #999999;
+    --color-title: #333333;
+    --color-sub-text: #999999;
+    --color-bg: #F5F5F5;
+    --color-selector-bg: #E9E9E9;
+    --font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+}
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-bg);
+    color: var(--color-black);
+    min-height: 100vh;
+    padding: 30px;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: var(--color-white);
+    border-radius: 12px;
+    padding: 32px 28px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.dashboard-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--color-title);
+    letter-spacing: 0.5px;
+}
+
+/* Year Selector */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Refresh Button */
+.refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--color-selector-bg);
+    border: none;
+    border-radius: 16px;
+    padding: 8px 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    font-family: var(--font-family);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-title);
+}
+
+.refresh-btn:hover {
+    background: #DCDCDC;
+}
+
+.refresh-btn:active {
+    transform: scale(0.96);
+}
+
+.refresh-btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.refresh-btn.loading .refresh-icon {
+    animation: spin 1s linear infinite;
+}
+
+.refresh-btn.success {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.refresh-btn.error {
+    background: #FFEBEE;
+    color: #C62828;
+}
+
+.refresh-icon {
+    transition: transform 0.3s ease;
+}
+
+.refresh-text {
+    line-height: 1;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #333;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+.toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+    background: #2E7D32;
+}
+
+.toast.error {
+    background: #C62828;
+}
+
+.year-selector {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--color-selector-bg);
+    border-radius: 16px;
+    padding: 8px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s ease;
+}
+
+.year-selector:hover {
+    background: #DCDCDC;
+}
+
+.year-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-title);
+}
+
+.dropdown-arrow {
+    transition: transform 0.25s ease;
+}
+
+.year-selector.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Year Dropdown */
+.year-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: all 0.2s ease;
+    z-index: 100;
+    min-width: 120px;
+    max-height: 300px;
+}
+
+.year-selector.open .year-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.year-option {
+    padding: 10px 18px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.year-option:hover {
+    background: #F0F0F0;
+}
+
+.year-option.active {
+    background: #E9E9E9;
+    font-weight: 600;
+}
+
+/* Table Wrapper */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+}
+
+.table-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: #F0F0F0;
+    border-radius: 3px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #CCCCCC;
+    border-radius: 3px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #AAAAAA;
+}
+
+/* Rate Table */
+.rate-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    min-width: 1300px;
+}
+
+/* Table Head */
+.rate-table thead th {
+    background: var(--color-black);
+    color: var(--color-white);
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    height: 60px;
+    padding: 0 8px;
+    border: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.rate-table thead th:first-child {
+    width: 220px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.rate-table thead th:last-child {
+    /* 年度列 */
+}
+
+/* Table Body */
+.rate-table tbody td {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    height: 50px;
+    padding: 0 8px;
+    border: 1px solid var(--color-border);
+    background: var(--color-white);
+    transition: background 0.15s ease;
+}
+
+.rate-table tbody tr:hover td {
+    background: #F8F8F8;
+}
+
+/* Name Cell (first column) */
+.rate-table tbody td:first-child {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.name-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.name-primary {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-black);
+    line-height: 1.3;
+}
+
+.name-secondary {
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--color-sub-text);
+    line-height: 1.3;
+}
+
+/* Negative value - red color */
+.rate-table tbody td.negative {
+    color: #FF5555;
+}
+
+/* No data placeholder */
+.rate-table tbody td.no-data {
+    color: #CCCCCC;
+}
+
+/* Year column highlight */
+.rate-table thead th.year-col {
+    background: #1A1A1A;
+}
+
+.rate-table tbody td.year-col {
+    font-weight: 500;
+    background: #FAFAFA;
+}
+
+.rate-table tbody tr:hover td.year-col {
+    background: #F2F2F2;
+}
+
+/* Footer Info */
+.footer-info {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.footer-info p {
+    font-size: 12px;
+    color: var(--color-sub-text);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 16px;
+    }
+
+    .dashboard-container {
+        padding: 20px 16px;
+        border-radius: 8px;
+    }
+
+    .dashboard-title {
+        font-size: 22px;
+    }
+
+    .rate-table thead th {
+        font-size: 16px;
+        height: 50px;
+    }
+
+    .rate-table tbody td {
+        font-size: 14px;
+        height: 44px;
+    }
+}

@@ -1,0 +1,24 @@
+# Python 虚拟环境
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# IDE / 编辑器
+.codebuddy/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 调试 & 测试脚本（非核心文件）
+test_*.py
+check_*.py
+debug_*.py
+calc_reinvest.py
+fetch_official.py
+verify*.py
+
+# OS
+.DS_Store
+Thumbs.db

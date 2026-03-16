@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>月度 & 年度收益率检测看板</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- 顶部标题区域 -->
+        <div class="header">
+            <h1 class="dashboard-title">月度&年度收益率检测</h1>
+            <div class="header-controls">
+                <!-- 手动更新按钮 -->
+                <button class="refresh-btn" id="refreshBtn" title="更新数据">
+                    <svg class="refresh-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M14 8A6 6 0 1 1 8 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M8 0.5L10.5 3L8 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="refresh-text">更新</span>
+                </button>
+
+                <!-- 年份选择器 -->
+                <div class="year-selector" id="yearSelector">
+                    <span class="year-text" id="yearText"></span>
+                    <svg class="dropdown-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                        <path d="M1 1.5L6 6.5L11 1.5" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="year-dropdown" id="yearDropdown">
+                        <!-- 由 JS 根据数据动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 收益率表格区域 -->
+        <div class="table-wrapper">
+            <table class="rate-table" id="rateTable">
+                <thead id="tableHead">
+                    <!-- 由 JS 动态生成 -->
+                </thead>
+                <tbody id="tableBody">
+                    <!-- 由 JS 动态生成 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 底部信息 -->
+        <div class="footer-info">
+            <p id="updateInfo">* 数据加载中...</p>
+        </div>
+
+        <!-- 更新结果提示 toast -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script src="data.js"></script>
+</body>
+</html>
