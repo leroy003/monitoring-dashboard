@@ -515,53 +515,6 @@ body {
     min-width: 50px;
 }
 
-.detail-year-bar-wrapper {
-    flex: 1;
-    margin: 0 16px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.detail-year-bar-bg {
-    width: 100%;
-    height: 6px;
-    background: #F0F0F0;
-    border-radius: 3px;
-    position: relative;
-    overflow: visible;
-}
-
-.detail-year-bar {
-    height: 100%;
-    border-radius: 3px;
-    position: absolute;
-    top: 0;
-    transition: width 0.4s ease;
-}
-
-.detail-year-bar.positive {
-    background: #4CAF50;
-    left: 50%;
-}
-
-.detail-year-bar.negative {
-    background: #FF5555;
-    right: 50%;
-}
-
-/* Center line */
-.detail-year-bar-bg::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: -4px;
-    bottom: -4px;
-    width: 1px;
-    background: #CCC;
-}
-
 .detail-year-value {
     font-size: 14px;
     font-weight: 500;
@@ -580,6 +533,24 @@ body {
 
 .detail-year-value.no-data {
     color: #CCC;
+}
+
+/* Average row */
+.detail-avg-row {
+    border-top: 2px solid #E0E0E0;
+    border-bottom: none;
+    margin-top: 4px;
+    padding-top: 14px;
+}
+
+.detail-avg-label {
+    font-weight: 600;
+    color: var(--color-black);
+}
+
+.detail-avg-value {
+    font-weight: 600;
+    font-size: 15px;
 }
 
 /* Name cell clickable */

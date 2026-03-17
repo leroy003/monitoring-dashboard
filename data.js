@@ -473,37 +473,33 @@ function showDetailCard(code, name) {
     // 收集历年数据
     const yearlyList = collectYearlyData(code);
 
-    // 找到最大绝对值用于计算条形图比例
-    let maxAbs = 0;
-    yearlyList.forEach(item => {
-        if (item.yearly !== null && item.yearly !== undefined) {
-            maxAbs = Math.max(maxAbs, Math.abs(item.yearly));
-        }
-    });
-    if (maxAbs === 0) maxAbs = 10; // 防止除零
-
     // 渲染年度行
     bodyEl.innerHTML = '';
 
     if (yearlyList.length === 0) {
         bodyEl.innerHTML = '<div style="text-align:center; padding:40px; color:#999; font-size:14px;">暂无历年数据</div>';
     } else {
+        // 计算平均年化收益率（仅计算有数据的年份）
+        let validSum = 0;
+        let validCount = 0;
+        yearlyList.forEach(item => {
+            if (item.yearly !== null && item.yearly !== undefined) {
+                validSum += item.yearly;
+                validCount++;
+            }
+        });
+        const avgYearly = validCount > 0 ? validSum / validCount : null;
+
+        // 渲染每年的行
         yearlyList.forEach(item => {
             const row = document.createElement('div');
             row.className = 'detail-year-row';
 
             const isNull = item.yearly === null || item.yearly === undefined;
             const isNeg = !isNull && item.yearly < 0;
-            const barPercent = isNull ? 0 : Math.min((Math.abs(item.yearly) / maxAbs) * 50, 50);
 
             row.innerHTML = `
                 <span class="detail-year-label">${item.year}</span>
-                <div class="detail-year-bar-wrapper">
-                    <div class="detail-year-bar-bg">
-                        <div class="detail-year-bar ${isNull ? '' : (isNeg ? 'negative' : 'positive')}"
-                             style="width: ${barPercent}%"></div>
-                    </div>
-                </div>
                 <span class="detail-year-value ${isNull ? 'no-data' : (isNeg ? 'negative' : 'positive')}">
                     ${isNull ? '-' : (item.yearly >= 0 ? '+' : '') + item.yearly.toFixed(2) + '%'}
                 </span>
@@ -511,6 +507,21 @@ function showDetailCard(code, name) {
 
             bodyEl.appendChild(row);
         });
+
+        // 渲染平均年化收益率
+        const avgRow = document.createElement('div');
+        avgRow.className = 'detail-year-row detail-avg-row';
+        const avgIsNull = avgYearly === null;
+        const avgIsNeg = !avgIsNull && avgYearly < 0;
+
+        avgRow.innerHTML = `
+            <span class="detail-year-label detail-avg-label">平均年化</span>
+            <span class="detail-year-value detail-avg-value ${avgIsNull ? 'no-data' : (avgIsNeg ? 'negative' : 'positive')}">
+                ${avgIsNull ? '-' : (avgYearly >= 0 ? '+' : '') + avgYearly.toFixed(2) + '%'}
+            </span>
+        `;
+
+        bodyEl.appendChild(avgRow);
     }
 
     // 显示
