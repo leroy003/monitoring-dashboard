@@ -404,8 +404,8 @@ function buildYearOptions() {
     const dropdown = document.getElementById('yearDropdown');
     dropdown.innerHTML = '';
 
-    // 获取所有可用年份并排序（升序）
-    const years = Object.keys(allYearData).map(Number).sort((a, b) => a - b);
+    // 获取所有可用年份并排序（降序，最新年份在最上面）
+    const years = Object.keys(allYearData).map(Number).sort((a, b) => b - a);
 
     // 如果当前年份不在数据中，仍保持 currentYear 不变（表格会显示"暂无数据"）
     // 如果当前年份在数据中，确保它被选中
