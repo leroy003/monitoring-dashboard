@@ -271,7 +271,14 @@ def get_akshare_index(index_code, start_date, end_date):
 
 
 def get_yfinance_data(ticker, start_date, end_date, fallback_tickers=None):
-    """获取 yfinance 历史数据"""
+    """
+    获取 yfinance 历史数据，使用总回报指数（Total Return Index）
+    
+    关键改进（v4）：
+    - 不再使用 auto_adjust=True（其价格调整算法在大额分红场景下不准确）
+    - 改用 raw close + dividends 计算总回报指数：假设分红全额再投资买入
+    - 这样计算出的收益率与 Yahoo Finance 官方 Calendar Year Returns 完全一致
+    """
     import yfinance as yf
     
     tickers_to_try = [ticker]
@@ -281,7 +288,8 @@ def get_yfinance_data(ticker, start_date, end_date, fallback_tickers=None):
     for t in tickers_to_try:
         try:
             print(f"  [yfinance] 尝试获取 {t} 数据...")
-            data = yf.download(t, start=start_date, end=end_date, progress=False, auto_adjust=True)
+            tkr = yf.Ticker(t)
+            data = tkr.history(start=start_date, end=end_date, auto_adjust=False)
             
             if data is None or data.empty:
                 print(f"  [yfinance] {t} 无数据，尝试下一个...")
@@ -292,8 +300,40 @@ def get_yfinance_data(ticker, start_date, end_date, fallback_tickers=None):
             if isinstance(df.columns, pd.MultiIndex):
                 df.columns = [col[0] if isinstance(col, tuple) else col for col in df.columns]
             
-            df = df.rename(columns={"Date": "date", "Close": "nav"})
-            df["date"] = pd.to_datetime(df["date"])
+            # 去除时区信息
+            df["Date"] = pd.to_datetime(df["Date"]).dt.tz_localize(None)
+            df["Close"] = pd.to_numeric(df["Close"], errors="coerce")
+            df = df.dropna(subset=["Close"])
+            df = df.sort_values("Date").reset_index(drop=True)
+            
+            if len(df) == 0:
+                print(f"  [yfinance] {t} 数据为空...")
+                continue
+            
+            # 检查是否有分红数据
+            has_dividends = "Dividends" in df.columns and (df["Dividends"] > 0).any()
+            div_count = (df["Dividends"] > 0).sum() if has_dividends else 0
+            
+            if has_dividends:
+                # 计算总回报指数（Total Return Index）
+                # 假设分红全额以当日收盘价再投资买入
+                print(f"  [yfinance] {t} 检测到 {div_count} 次分红，使用总回报指数...")
+                shares = 1.0
+                total_return_values = []
+                
+                for _, row in df.iterrows():
+                    if row.get("Dividends", 0) > 0 and row["Close"] > 0:
+                        additional_shares = (shares * row["Dividends"]) / row["Close"]
+                        shares += additional_shares
+                    total_return_values.append(shares * row["Close"])
+                
+                df["nav"] = total_return_values
+            else:
+                # 无分红，直接用收盘价
+                print(f"  [yfinance] {t} 无分红记录，使用原始收盘价...")
+                df["nav"] = df["Close"]
+            
+            df = df.rename(columns={"Date": "date"})
             df["nav"] = pd.to_numeric(df["nav"], errors="coerce")
             df = df.dropna(subset=["nav"])
             df = df.sort_values("date").reset_index(drop=True)
