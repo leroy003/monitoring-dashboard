@@ -200,11 +200,14 @@ function renderTableBody() {
         // 名称单元格
         const tdName = document.createElement('td');
         tdName.innerHTML = `
-            <div class="name-cell">
+            <div class="name-cell clickable" data-code="${fund.code}" data-name="${fund.name}">
                 <span class="name-primary">${fund.name}</span>
                 <span class="name-secondary">${fund.code}</span>
             </div>
         `;
+        tdName.addEventListener('click', function () {
+            showDetailCard(fund.code, fund.name);
+        });
         tr.appendChild(tdName);
 
         // 12个月度收益率
@@ -422,6 +425,133 @@ function buildYearOptions() {
     });
 }
 
+// ===================== 详情卡片 =====================
+
+/**
+ * 从 allYearData 中收集指定 code 的所有年度收益率
+ * 返回 [{ year: 2026, yearly: 5.67 }, { year: 2025, yearly: -3.2 }, ...]
+ * 按年份降序排列（最新在前）
+ * 自动适配未来新增的年份（如 2027、2028 等）
+ */
+function collectYearlyData(code) {
+    const result = [];
+
+    // 遍历 allYearData 的所有年份
+    const years = Object.keys(allYearData).map(Number).sort((a, b) => b - a);
+
+    years.forEach(year => {
+        const yearData = allYearData[String(year)];
+        if (!yearData) return;
+
+        // 在该年份的数据中查找匹配 code 的对象
+        const fund = yearData.find(f => f.code === code);
+        if (fund) {
+            result.push({
+                year: year,
+                yearly: fund.yearly
+            });
+        }
+    });
+
+    return result;
+}
+
+/**
+ * 显示详情卡片
+ */
+function showDetailCard(code, name) {
+    const overlay = document.getElementById('detailOverlay');
+    const card = document.getElementById('detailCard');
+    const nameEl = document.getElementById('detailName');
+    const codeEl = document.getElementById('detailCode');
+    const bodyEl = document.getElementById('detailBody');
+
+    // 设置标题
+    nameEl.textContent = name;
+    codeEl.textContent = code;
+
+    // 收集历年数据
+    const yearlyList = collectYearlyData(code);
+
+    // 找到最大绝对值用于计算条形图比例
+    let maxAbs = 0;
+    yearlyList.forEach(item => {
+        if (item.yearly !== null && item.yearly !== undefined) {
+            maxAbs = Math.max(maxAbs, Math.abs(item.yearly));
+        }
+    });
+    if (maxAbs === 0) maxAbs = 10; // 防止除零
+
+    // 渲染年度行
+    bodyEl.innerHTML = '';
+
+    if (yearlyList.length === 0) {
+        bodyEl.innerHTML = '<div style="text-align:center; padding:40px; color:#999; font-size:14px;">暂无历年数据</div>';
+    } else {
+        yearlyList.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'detail-year-row';
+
+            const isNull = item.yearly === null || item.yearly === undefined;
+            const isNeg = !isNull && item.yearly < 0;
+            const barPercent = isNull ? 0 : Math.min((Math.abs(item.yearly) / maxAbs) * 50, 50);
+
+            row.innerHTML = `
+                <span class="detail-year-label">${item.year}</span>
+                <div class="detail-year-bar-wrapper">
+                    <div class="detail-year-bar-bg">
+                        <div class="detail-year-bar ${isNull ? '' : (isNeg ? 'negative' : 'positive')}"
+                             style="width: ${barPercent}%"></div>
+                    </div>
+                </div>
+                <span class="detail-year-value ${isNull ? 'no-data' : (isNeg ? 'negative' : 'positive')}">
+                    ${isNull ? '-' : (item.yearly >= 0 ? '+' : '') + item.yearly.toFixed(2) + '%'}
+                </span>
+            `;
+
+            bodyEl.appendChild(row);
+        });
+    }
+
+    // 显示
+    overlay.classList.add('show');
+    card.classList.add('show');
+}
+
+/**
+ * 关闭详情卡片
+ */
+function hideDetailCard() {
+    const overlay = document.getElementById('detailOverlay');
+    const card = document.getElementById('detailCard');
+    overlay.classList.remove('show');
+    card.classList.remove('show');
+}
+
+/**
+ * 初始化详情卡片交互
+ */
+function initDetailCard() {
+    const overlay = document.getElementById('detailOverlay');
+    const closeBtn = document.getElementById('detailClose');
+
+    // 点击遮罩关闭
+    overlay.addEventListener('click', hideDetailCard);
+
+    // 点击关闭按钮
+    closeBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        hideDetailCard();
+    });
+
+    // ESC 键关闭
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            hideDetailCard();
+        }
+    });
+}
+
 // ===================== 初始化 =====================
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -437,4 +567,5 @@ document.addEventListener('DOMContentLoaded', async function () {
     // 4. 初始化交互
     initYearSelector();
     initRefreshButton();
+    initDetailCard();
 });
