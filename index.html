@@ -58,21 +58,24 @@
         <div class="detail-overlay" id="detailOverlay"></div>
         <!-- 详情卡片 -->
         <div class="detail-card" id="detailCard">
+            <!-- 顶部标题栏：左名称+编号，右平均收益率 -->
             <div class="detail-card-header">
-                <div class="detail-card-title">
+                <div class="detail-card-left">
                     <span class="detail-name" id="detailName"></span>
                     <span class="detail-code" id="detailCode"></span>
                 </div>
+                <div class="detail-card-right">
+                    <span class="detail-avg-value" id="detailAvgValue"></span>
+                    <span class="detail-avg-label">平均年化收益率</span>
+                </div>
                 <button class="detail-close" id="detailClose">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                         <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                     </svg>
                 </button>
             </div>
-            <div class="detail-card-subtitle">历年年度收益率</div>
-            <div class="detail-card-body" id="detailBody">
-                <!-- 由 JS 动态生成 -->
-            </div>
+            <!-- 表格区域：由 JS 动态生成 -->
+            <div class="detail-card-body" id="detailBody"></div>
         </div>
     </div>
 

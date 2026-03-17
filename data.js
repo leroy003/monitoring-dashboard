@@ -457,71 +457,95 @@ function collectYearlyData(code) {
 }
 
 /**
- * 显示详情卡片
+ * 显示详情卡片（Figma 表格式布局）
  */
 function showDetailCard(code, name) {
     const overlay = document.getElementById('detailOverlay');
     const card = document.getElementById('detailCard');
     const nameEl = document.getElementById('detailName');
     const codeEl = document.getElementById('detailCode');
+    const avgValueEl = document.getElementById('detailAvgValue');
     const bodyEl = document.getElementById('detailBody');
 
     // 设置标题
     nameEl.textContent = name;
     codeEl.textContent = code;
 
-    // 收集历年数据
-    const yearlyList = collectYearlyData(code);
+    // 收集历年数据（降序），翻转为升序（2014→2026）
+    const yearlyList = collectYearlyData(code).reverse();
 
-    // 渲染年度行
+    // 计算平均年化收益率
+    let validSum = 0;
+    let validCount = 0;
+    yearlyList.forEach(item => {
+        if (item.yearly !== null && item.yearly !== undefined) {
+            validSum += item.yearly;
+            validCount++;
+        }
+    });
+    const avgYearly = validCount > 0 ? validSum / validCount : null;
+
+    // 设置右上角平均收益率
+    if (avgYearly === null) {
+        avgValueEl.textContent = '-';
+        avgValueEl.className = 'detail-avg-value no-data';
+    } else {
+        avgValueEl.textContent = (avgYearly >= 0 ? '+' : '') + avgYearly.toFixed(2) + '%';
+        avgValueEl.className = 'detail-avg-value ' + (avgYearly < 0 ? 'negative' : 'positive');
+    }
+
+    // 渲染表格区域
     bodyEl.innerHTML = '';
 
     if (yearlyList.length === 0) {
         bodyEl.innerHTML = '<div style="text-align:center; padding:40px; color:#999; font-size:14px;">暂无历年数据</div>';
     } else {
-        // 计算平均年化收益率（仅计算有数据的年份）
-        let validSum = 0;
-        let validCount = 0;
-        yearlyList.forEach(item => {
-            if (item.yearly !== null && item.yearly !== undefined) {
-                validSum += item.yearly;
-                validCount++;
-            }
-        });
-        const avgYearly = validCount > 0 ? validSum / validCount : null;
+        // 每行最多 10 列，超出自动换行成多张表格
+        const COLS_PER_ROW = 10;
+        const totalItems = yearlyList.length;
+        const rowCount = Math.ceil(totalItems / COLS_PER_ROW);
 
-        // 渲染每年的行
-        yearlyList.forEach(item => {
-            const row = document.createElement('div');
-            row.className = 'detail-year-row';
+        for (let r = 0; r < rowCount; r++) {
+            const startIdx = r * COLS_PER_ROW;
+            const endIdx = Math.min(startIdx + COLS_PER_ROW, totalItems);
+            const chunk = yearlyList.slice(startIdx, endIdx);
 
-            const isNull = item.yearly === null || item.yearly === undefined;
-            const isNeg = !isNull && item.yearly < 0;
+            const table = document.createElement('table');
+            table.className = 'detail-table';
 
-            row.innerHTML = `
-                <span class="detail-year-label">${item.year}</span>
-                <span class="detail-year-value ${isNull ? 'no-data' : (isNeg ? 'negative' : 'positive')}">
-                    ${isNull ? '-' : (item.yearly >= 0 ? '+' : '') + item.yearly.toFixed(2) + '%'}
-                </span>
-            `;
+            // 表头行（年份）
+            const thead = document.createElement('thead');
+            const headTr = document.createElement('tr');
+            chunk.forEach(item => {
+                const th = document.createElement('th');
+                th.textContent = String(item.year);
+                headTr.appendChild(th);
+            });
+            thead.appendChild(headTr);
+            table.appendChild(thead);
 
-            bodyEl.appendChild(row);
-        });
+            // 表体行（百分比）
+            const tbody = document.createElement('tbody');
+            const bodyTr = document.createElement('tr');
+            chunk.forEach(item => {
+                const td = document.createElement('td');
+                const isNull = item.yearly === null || item.yearly === undefined;
+                const isNeg = !isNull && item.yearly < 0;
 
-        // 渲染平均年化收益率
-        const avgRow = document.createElement('div');
-        avgRow.className = 'detail-year-row detail-avg-row';
-        const avgIsNull = avgYearly === null;
-        const avgIsNeg = !avgIsNull && avgYearly < 0;
+                if (isNull) {
+                    td.textContent = '-';
+                    td.className = 'no-data';
+                } else {
+                    td.textContent = item.yearly.toFixed(2) + '%';
+                    td.className = isNeg ? 'negative' : 'positive';
+                }
+                bodyTr.appendChild(td);
+            });
+            tbody.appendChild(bodyTr);
+            table.appendChild(tbody);
 
-        avgRow.innerHTML = `
-            <span class="detail-year-label detail-avg-label">平均年化</span>
-            <span class="detail-year-value detail-avg-value ${avgIsNull ? 'no-data' : (avgIsNeg ? 'negative' : 'positive')}">
-                ${avgIsNull ? '-' : (avgYearly >= 0 ? '+' : '') + avgYearly.toFixed(2) + '%'}
-            </span>
-        `;
-
-        bodyEl.appendChild(avgRow);
+            bodyEl.appendChild(table);
+        }
     }
 
     // 显示

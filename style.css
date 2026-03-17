@@ -413,9 +413,9 @@ body {
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
     z-index: 600;
-    width: 480px;
-    max-width: 90vw;
-    max-height: 80vh;
+    width: 900px;
+    max-width: 94vw;
+    max-height: 85vh;
     display: flex;
     flex-direction: column;
     opacity: 0;
@@ -429,33 +429,64 @@ body {
     transform: translate(-50%, -50%) scale(1);
 }
 
-/* Card Header */
+/* Card Header - Figma: 左名称+编号，右平均收益率 */
 .detail-card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 24px 24px 0 24px;
+    padding: 28px 28px 20px 28px;
+    position: relative;
 }
 
-.detail-card-title {
+.detail-card-left {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
 .detail-name {
-    font-size: 20px;
+    font-size: 28px;
     font-weight: 600;
-    color: var(--color-black);
-    line-height: 1.3;
+    color: var(--color-title);
+    line-height: 1.2;
 }
 
 .detail-code {
-    font-size: 12px;
+    font-size: 10px;
+    color: var(--color-sub-text);
+}
+
+.detail-card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.detail-avg-value {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--color-title);
+    line-height: 1.2;
+}
+
+.detail-avg-value.positive {
+    color: #4CAF50;
+}
+
+.detail-avg-value.negative {
+    color: #FF5555;
+}
+
+.detail-avg-label {
+    font-size: 10px;
     color: var(--color-sub-text);
 }
 
 .detail-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
     background: none;
     border: none;
     cursor: pointer;
@@ -463,7 +494,6 @@ body {
     border-radius: 8px;
     color: #999;
     transition: all 0.15s ease;
-    flex-shrink: 0;
 }
 
 .detail-close:hover {
@@ -471,23 +501,17 @@ body {
     color: #333;
 }
 
-/* Card Subtitle */
-.detail-card-subtitle {
-    font-size: 13px;
-    color: var(--color-sub-text);
-    padding: 12px 24px 16px 24px;
-    border-bottom: 1px solid #EFEFEF;
-}
-
-/* Card Body */
+/* Card Body - 表格区域 */
 .detail-card-body {
-    padding: 8px 24px 24px 24px;
+    padding: 0 28px 28px 28px;
     overflow-y: auto;
+    overflow-x: auto;
     flex: 1;
 }
 
 .detail-card-body::-webkit-scrollbar {
     width: 4px;
+    height: 4px;
 }
 
 .detail-card-body::-webkit-scrollbar-thumb {
@@ -495,62 +519,68 @@ body {
     border-radius: 2px;
 }
 
-/* Year Row */
-.detail-year-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid #F5F5F5;
+/* Detail Table - Figma 表格样式 */
+.detail-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--color-border);
 }
 
-.detail-year-row:last-child {
+.detail-table th {
+    background: var(--color-black);
+    color: var(--color-white);
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    width: 80px;
+    height: 60px;
+    padding: 0;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    line-height: 1;
+}
+
+.detail-table th:last-child {
+    border-right: none;
+}
+
+.detail-table td {
+    background: var(--color-white);
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    width: 80px;
+    height: 50px;
+    padding: 0;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-black);
+    line-height: 1;
+}
+
+.detail-table td:last-child {
+    border-right: none;
+}
+
+.detail-table tr:last-child td {
     border-bottom: none;
 }
 
-.detail-year-label {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--color-title);
-    min-width: 50px;
-}
-
-.detail-year-value {
-    font-size: 14px;
-    font-weight: 500;
-    min-width: 70px;
-    text-align: right;
-    color: var(--color-black);
-}
-
-.detail-year-value.positive {
+.detail-table td.positive {
     color: #4CAF50;
 }
 
-.detail-year-value.negative {
+.detail-table td.negative {
     color: #FF5555;
 }
 
-.detail-year-value.no-data {
+.detail-table td.no-data {
     color: #CCC;
 }
 
-/* Average row */
-.detail-avg-row {
-    border-top: 2px solid #E0E0E0;
-    border-bottom: none;
-    margin-top: 4px;
-    padding-top: 14px;
-}
-
-.detail-avg-label {
-    font-weight: 600;
-    color: var(--color-black);
-}
-
-.detail-avg-value {
-    font-weight: 600;
-    font-size: 15px;
+/* 多行表格之间间距 */
+.detail-table + .detail-table {
+    margin-top: 16px;
 }
 
 /* Name cell clickable */
@@ -573,15 +603,27 @@ body {
 @media (max-width: 768px) {
     .detail-card {
         width: 95vw;
-        max-height: 85vh;
+        max-height: 90vh;
     }
 
     .detail-name {
-        font-size: 17px;
+        font-size: 22px;
     }
 
-    .detail-year-row {
-        padding: 10px 0;
+    .detail-avg-value {
+        font-size: 22px;
+    }
+
+    .detail-table th {
+        width: 65px;
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .detail-table td {
+        width: 65px;
+        height: 44px;
+        font-size: 14px;
     }
 }
 
