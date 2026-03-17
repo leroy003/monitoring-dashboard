@@ -500,8 +500,8 @@ function showDetailCard(code, name) {
     if (yearlyList.length === 0) {
         bodyEl.innerHTML = '<div style="text-align:center; padding:40px; color:#999; font-size:14px;">暂无历年数据</div>';
     } else {
-        // 每行最多 10 列，超出自动换行成多张表格
-        const COLS_PER_ROW = 10;
+        // 每行最多 5 列，超出自动换行成多张表格
+        const COLS_PER_ROW = 5;
         const totalItems = yearlyList.length;
         const rowCount = Math.ceil(totalItems / COLS_PER_ROW);
 
@@ -568,16 +568,9 @@ function hideDetailCard() {
  */
 function initDetailCard() {
     const overlay = document.getElementById('detailOverlay');
-    const closeBtn = document.getElementById('detailClose');
 
-    // 点击遮罩关闭
+    // 点击遮罩（卡片外部）关闭
     overlay.addEventListener('click', hideDetailCard);
-
-    // 点击关闭按钮
-    closeBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        hideDetailCard();
-    });
 
     // ESC 键关闭
     document.addEventListener('keydown', function (e) {

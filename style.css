@@ -413,7 +413,7 @@ body {
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
     z-index: 600;
-    width: 900px;
+    width: 520px;
     max-width: 94vw;
     max-height: 85vh;
     display: flex;
@@ -481,24 +481,6 @@ body {
 .detail-avg-label {
     font-size: 10px;
     color: var(--color-sub-text);
-}
-
-.detail-close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 8px;
-    color: #999;
-    transition: all 0.15s ease;
-}
-
-.detail-close:hover {
-    background: #F0F0F0;
-    color: #333;
 }
 
 /* Card Body - 表格区域 */
