@@ -364,7 +364,7 @@ function initYearSelector() {
     buildYearOptions();
 
     // 设置默认显示文本
-    yearText.textContent = currentYear + '年';
+    yearText.textContent = String(currentYear);
 
     // 点击切换下拉
     selector.addEventListener('click', function (e) {
@@ -385,7 +385,7 @@ function initYearSelector() {
 
         // 更新年份
         currentYear = parseInt(option.dataset.year);
-        yearText.textContent = currentYear + '年';
+        yearText.textContent = String(currentYear);
 
         // 重新渲染表格（表头+表体）
         renderTable();
@@ -420,7 +420,7 @@ function buildYearOptions() {
             div.classList.add('active');
         }
         div.dataset.year = year;
-        div.textContent = year + '年';
+        div.textContent = String(year);
         dropdown.appendChild(div);
     });
 }
