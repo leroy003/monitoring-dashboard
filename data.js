@@ -54,6 +54,12 @@ const FALLBACK_DATA = [
         yearly: 4.10
     },
     {
+        name: '宏利货币B',
+        code: '000700',
+        monthly: [null, null, null, null, null, null, null, null, null, null, null, null],
+        yearly: 2.50
+    },
+    {
         name: '招商产业债券A',
         code: '217022',
         monthly: [1.74, -2.08, 2.53, -0.45, 1.86, -1.32, 0.97, -1.68, 2.41, -0.89, 1.53, 0.72],

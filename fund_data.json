@@ -100,6 +100,25 @@
         "yearly": 33.54
       },
       {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 1.85
+      },
+      {
         "name": "招商产业债券A",
         "code": "217022",
         "monthly": [
@@ -309,6 +328,25 @@
           2.67
         ],
         "yearly": 40.88
+      },
+      {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 4.07
       },
       {
         "name": "招商产业债券A",
@@ -522,6 +560,25 @@
         "yearly": -14.39
       },
       {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 2.69
+      },
+      {
         "name": "招商产业债券A",
         "code": "217022",
         "monthly": [
@@ -731,6 +788,25 @@
           -0.1
         ],
         "yearly": 0.6
+      },
+      {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 3.82
       },
       {
         "name": "招商产业债券A",
@@ -944,6 +1020,25 @@
         "yearly": -28.88
       },
       {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 3.86
+      },
+      {
         "name": "招商产业债券A",
         "code": "217022",
         "monthly": [
@@ -1153,6 +1248,25 @@
           6.93
         ],
         "yearly": 23.95
+      },
+      {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 3.06
       },
       {
         "name": "招商产业债券A",
@@ -1366,6 +1480,25 @@
         "yearly": 21.79
       },
       {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 2.26
+      },
+      {
         "name": "招商产业债券A",
         "code": "217022",
         "monthly": [
@@ -1575,6 +1708,25 @@
           1.23
         ],
         "yearly": 15.56
+      },
+      {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 2.59
       },
       {
         "name": "招商产业债券A",
@@ -1788,6 +1940,25 @@
         "yearly": -16.61
       },
       {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 2.21
+      },
+      {
         "name": "招商产业债券A",
         "code": "217022",
         "monthly": [
@@ -1997,6 +2168,25 @@
           -1.86
         ],
         "yearly": -5.39
+      },
+      {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 2.25
       },
       {
         "name": "招商产业债券A",
@@ -2210,6 +2400,25 @@
         "yearly": 5.98
       },
       {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 1.99
+      },
+      {
         "name": "招商产业债券A",
         "code": "217022",
         "monthly": [
@@ -2421,6 +2630,25 @@
         "yearly": 29.02
       },
       {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 1.58
+      },
+      {
         "name": "招商产业债券A",
         "code": "217022",
         "monthly": [
@@ -2630,6 +2858,25 @@
           null
         ],
         "yearly": 8.72
+      },
+      {
+        "name": "宏利货币B",
+        "code": "000700",
+        "monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "yearly": 0.3
       },
       {
         "name": "招商产业债券A",
