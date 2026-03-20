@@ -470,10 +470,6 @@ body {
     line-height: 1.2;
 }
 
-.detail-avg-value.positive {
-    color: #4CAF50;
-}
-
 .detail-avg-value.negative {
     color: #FF5555;
 }
@@ -546,10 +542,6 @@ body {
 
 .detail-table tr:last-child td {
     border-bottom: none;
-}
-
-.detail-table td.positive {
-    color: #4CAF50;
 }
 
 .detail-table td.negative {

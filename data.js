@@ -497,7 +497,7 @@ function showDetailCard(code, name) {
         avgValueEl.className = 'detail-avg-value no-data';
     } else {
         avgValueEl.textContent = (avgYearly >= 0 ? '+' : '') + avgYearly.toFixed(2) + '%';
-        avgValueEl.className = 'detail-avg-value ' + (avgYearly < 0 ? 'negative' : 'positive');
+        avgValueEl.className = 'detail-avg-value' + (avgYearly < 0 ? ' negative' : '');
     }
 
     // 渲染表格区域
@@ -543,7 +543,7 @@ function showDetailCard(code, name) {
                     td.className = 'no-data';
                 } else {
                     td.textContent = item.yearly.toFixed(2) + '%';
-                    td.className = isNeg ? 'negative' : 'positive';
+                    if (isNeg) td.className = 'negative';
                 }
                 bodyTr.appendChild(td);
             });
